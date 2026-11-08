@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소비자 니즈 탐색기</title>
+<style>
+:root{--ink:#26334b;--muted:#738097;--line:#e6eaf2;--primary:#536fe5;--soft:#eef1ff;--bg:#f5f7fc;--green:#e9f7f0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,"Noto Sans KR",sans-serif}
+.wrap{width:min(980px,calc(100% - 28px));margin:34px auto 60px}
+header{text-align:center;padding:18px 10px 28px}header .eyebrow{font-size:12px;letter-spacing:2px;color:var(--primary);font-weight:800}
+h1{font-size:clamp(28px,5vw,42px);margin:8px 0;color:#304477}header p{color:var(--muted);margin:0}
+.layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:18px;align-items:start}
+.card{background:white;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 8px 28px #293b650b}
+h2{font-size:19px;margin:0 0 18px}.section{margin:0 0 22px}.section:last-child{margin-bottom:0}
+label.title{display:block;font-weight:750;margin-bottom:9px}.help{font-size:13px;color:var(--muted);margin:-4px 0 10px}
+input,select,textarea{font:inherit;width:100%;padding:12px 13px;border:1px solid #dce2ed;border-radius:12px;background:white;color:var(--ink);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px #536fe51a}
+textarea{min-height:86px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{position:relative}.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice span{display:block;border:1px solid var(--line);border-radius:999px;padding:9px 13px;font-size:14px;cursor:pointer;transition:.15s}
+.choice input:checked+span{background:var(--soft);border-color:#9aa9f5;color:#354cae;font-weight:750}
+button{border:0;border-radius:13px;padding:13px 18px;background:var(--primary);color:white;font:inherit;font-weight:800;cursor:pointer}
+button:hover{filter:brightness(.97)}button.secondary{background:#edf0f7;color:#46536d}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}.actions button{flex:1}
+.result{position:sticky;top:16px}.empty{background:#f7f8fc;border:1px dashed #d7ddea;border-radius:16px;padding:26px 18px;text-align:center;color:var(--muted);line-height:1.7}
+.empty .big{font-size:38px;display:block;margin-bottom:8px}
+.resultContent[hidden]{display:none}.tag{display:inline-block;background:var(--soft);color:#4056b6;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:750;margin:3px 4px 3px 0}
+.insight{background:#f7f8ff;border-radius:15px;padding:15px;margin:12px 0}.insight b{display:block;margin-bottom:5px}.insight p{margin:0;color:#596780;line-height:1.55;font-size:14px}
+.scoreline{display:flex;justify-content:space-between;align-items:center;margin:16px 0 7px;font-size:13px;color:var(--muted)}
+.bar{height:9px;border-radius:20px;background:#edf0f6;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#8194f3,#4e69dd);width:0}
+.idea{border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:9px}.idea strong{display:block}.idea small{color:var(--muted);line-height:1.5}
+footer{text-align:center;color:#9aa3b3;font-size:12px;margin-top:18px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.result{position:static}.row{grid-template-columns:1fr}.card{padding:19px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="eyebrow">CONSUMER INSIGHT LAB</div><h1>🔎 소비자 니즈 탐색기</h1><p>소비자의 일상 속 불편함을 발견하고 새로운 아이디어로 연결해 보세요.</p></header>
+<div class="layout">
+<section class="card">
+<h2>1. 소비자 상황 입력하기</h2>
+<form id="form">
+<div class="section row">
+<div><label class="title" for="age">소비자 연령대</label><select id="age"><option>10대</option><option selected>20대</option><option>30대</option><option>40대</option><option>50대 이상</option></select></div>
+<div><label class="title" for="life">생활 유형</label><select id="life"><option>학생</option><option>직장인</option><option>자녀를 양육하는 보호자</option><option>1인 가구</option><option>기타</option></select></div>
+</div>
+<div class="section">
+<label class="title">2. 관심 있는 소비 분야</label>
+<div class="choices" id="category">
+<label class="choice"><input type="radio" name="category" value="식품·외식" checked><span>🍽️ 식품·외식</span></label>
+<label class="choice"><input type="radio" name="category" value="패션·뷰티"><span>👕 패션·뷰티</span></label>
+<label class="choice"><input type="radio" name="category" value="생활·가전"><span>🏠 생활·가전</span></label>
+<label class="choice"><input type="radio" name="category" value="교육·육아"><span>📚 교육·육아</span></label>
+<label class="choice"><input type="radio" name="category" value="취미·여가"><span>🎨 취미·여가</span></label>
+<label class="choice"><input type="radio" name="category" value="디지털·IT"><span>📱 디지털·IT</span></label>
+</div>
+</div>
+<div class="section">
+<label class="title">3. 가장 불편하거나 아쉬운 점은?</label>
+<p class="help">여러 개 선택할 수 있어요.</p>
+<div class="choices" id="pain">
+<label class="choice"><input type="checkbox" value="가격이 비싸다"><span>💸 가격 부담</span></label>
+<label class="choice"><input type="checkbox" value="시간이 오래 걸린다"><span>⏰ 시간 부족</span></label>
+<label class="choice"><input type="checkbox" value="사용 방법이 어렵다"><span>🧩 사용이 어려움</span></label>
+<label class="choice"><input type="checkbox" value="품질이나 내구성이 아쉽다"><span>🛠️ 품질·내구성</span></label>
+<label class="choice"><input type="checkbox" value="선택지가 부족하다"><span>🔍 선택지 부족</span></label>
+<label class="choice"><input type="checkbox" value="휴대하거나 보관하기 불편하다"><span>🎒 휴대·보관 불편</span></label>
+<label class="choice"><input type="checkbox" value="개인에게 맞지 않는다"><span>🙋 맞춤 기능 부족</span></label>
+<label class="choice"><input type="checkbox" value="정보를 찾기 어렵다"><span>ℹ️ 정보 부족</span></label>
+</div>
+</div>
+<div class="section">
+<label class="title">4. 소비할 때 가장 중요하게 생각하는 가치</label>
+<div class="choices" id="value">
+<label class="choice"><input type="radio" name="value" value="저렴한 가격" checked><span>합리적인 가격</span></label>
+<label class="choice"><input type="radio" name="value" value="편리함"><span>편리함</span></label>
+<label class="choice"><input type="radio" name="value" value="높은 품질"><span>높은 품질</span></label>
+<label class="choice"><input type="radio" name="value" value="개성 있는 디자인"><span>디자인</span></label>
+<label class="choice"><input type="radio" name="value" value="친환경성"><span>친환경</span></label>
+<label class="choice"><input type="radio" name="value" value="안전과 신뢰"><span>안전·신뢰</span></label>
+</div>
+</div>
+<div class="section row">
+<div><label class="title" for="budget">적정 가격대</label><select id="budget"><option>1만 원 미만</option><option selected>1만~3만 원</option><option>3만~5만 원</option><option>5만~10만 원</option><option>10만 원 이상</option></select></div>
+<div><label class="title" for="frequency">필요한 빈도</label><select id="frequency"><option>매일</option><option selected>일주일에 여러 번</option><option>한 달에 몇 번</option><option>가끔 필요</option></select></div>
+</div>
+<div class="section">
+<label class="title" for="memo">직접 발견한 불편함 (선택)</label>
+<textarea id="memo" placeholder="예: 외출할 때 필요한 물건을 한 번에 챙기기 어려워요."></textarea>
+</div>
+<div class="actions"><button type="submit">✨ 니즈 분석하기</button><button type="reset" class="secondary">초기화</button></div>
+</form>
+</section>
+<aside class="card result">
+<h2>📊 소비자 분석 결과</h2>
+<div id="empty" class="empty"><span class="big">🧭</span>왼쪽 항목을 선택하고<br><b>니즈 분석하기</b>를 눌러주세요.<br>입력한 내용을 바탕으로 핵심 니즈와 아이디어를 정리해 드려요.</div>
+<div id="resultContent" class="resultContent" hidden>
+<div id="persona"></div>
+<div class="scoreline"><span>니즈 구체성 점수</span><b id="score">0점</b></div><div class="bar"><i id="bar"></i></div>
+<div class="insight"><b>🎯 핵심 소비자 니즈</b><p id="need"></p></div>
+<div class="insight"><b>💡 기회 발견</b><p id="opportunity"></p></div>
+<h3 style="font-size:16px;margin:18px 0 8px">아이디어 제안</h3><div id="ideas"></div>
+<div class="insight"><b>📝 한 줄 인사이트</b><p id="summary"></p></div>
+<div class="actions"><button type="button" id="copy">결과 복사</button><button type="button" class="secondary" id="download">결과 저장</button></div>
+</div>
+</aside>
+</div>
+<footer>※ 결과는 입력한 응답을 바탕으로 생성한 아이디어이며, 실제 소비자 조사·시장 검증을 대신하지 않습니다.</footer>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+let report='';
+$('#form').addEventListener('submit',e=>{
+ e.preventDefault();
+ const age=$('#age').value,life=$('#life').value,cat=$('input[name="category"]:checked').value;
+ const pains=[...document.querySelectorAll('#pain input:checked')].map(x=>x.value);
+ const val=$('input[name="value"]:checked').value,budget=$('#budget').value,freq=$('#frequency').value,memo=$('#memo').value.trim();
+ const score=Math.min(100,25+(pains.length*10)+(memo?15:0)+(freq==='매일'?10:freq==='일주일에 여러 번'?7:3));
+ const painText=pains.length?pains.join(', '):'구체적인 불편함이 아직 선택되지 않음';
+ const need=pains.length?`${life}인 ${age} 소비자는 ${cat} 분야에서 ${painText}을(를) 줄이고, ${val}을(를) 충족하는 해결책을 원할 가능성이 있어요.`:`${life}인 ${age} 소비자는 ${cat} 분야에서 ${val}을(를) 중요하게 생각해요. 실제 불편함을 더 구체적으로 확인하면 니즈를 선명하게 정의할 수 있어요.`;
+ const opportunity=pains.length?`불편함이 반복되는 상황을 관찰하고, ${budget} 가격대에서 부담 없이 사용할 수 있는 간단한 해결 방법을 제안해 볼 수 있어요. 특히 ${freq} 필요하다는 점을 고려해 사용 과정과 지속성을 설계하세요.`:`선택한 소비 가치가 실제 구매 결정에 얼마나 영향을 주는지 짧은 인터뷰나 설문으로 확인해 보세요.`;
+ const ideas=[
+  {n:'간편 해결형 아이디어',d:`${cat} 이용 과정에서 번거로운 단계를 줄이는 제품 또는 서비스. 핵심 가치: ${val}.`},
+  {n:'맞춤 추천형 아이디어',d:`소비자의 상황과 선호에 따라 선택지를 좁혀 주는 비교·추천 기능. 적정 가격대: ${budget}.`},
+  {n:'가성비 개선형 아이디어',d:`필수 기능에 집중하고 불필요한 요소를 줄여 가격 부담을 낮춘 실속형 구성.`}
+ ];
+ if(pains.includes('정보를 찾기 어렵다')) ideas[1]={n:'정보 한눈에 보기 서비스',d:'가격·후기·사용법을 한 화면에서 비교해 선택에 드는 시간을 줄이는 서비스.'};
+ if(pains.includes('휴대하거나 보관하기 불편하다')) ideas[0]={n:'휴대·정리 간편 제품',d:'작게 접거나 여러 용품을 한 번에 정리할 수 있는 휴대형 제품.'};
+ if(pains.includes('시간이 오래 걸린다')) ideas[0]={n:'시간 절약 솔루션',d:'준비·탐색·사용 단계를 줄여 짧은 시간에 목적을 달성하도록 돕는 제품 또는 서비스.'};
+ $('#persona').innerHTML=`<span class="tag">${age}</span><span class="tag">${life}</span><span class="tag">${cat}</span><span class="tag">예산 ${budget}</span>`;
+ $('#score').textContent=score+'점';$('#bar').style.width=score+'%';
+ $('#need').textContent=need+(memo?` 추가 의견: “${memo}”`:'');
+ $('#opportunity').textContent=opportunity;
+ $('#ideas').innerHTML=ideas.map(x=>`<div class="idea"><strong>${x.n}</strong><small>${x.d}</small></div>`).join('');
+ $('#summary').textContent=`${age} ${life} 소비자는 ${cat}에서 ${pains.length?pains[0]+' 문제를 해결하고':'자신이 중요하게 여기는 가치를 충족하고'} 싶어 하며, ${val}을 핵심 선택 기준으로 둡니다.`;
+ report=`[소비자 니즈 분석 결과]\n소비자: ${age} / ${life}\n분야: ${cat}\n불편함: ${painText}\n중요 가치: ${val}\n적정 가격: ${budget}\n필요 빈도: ${freq}\n추가 의견: ${memo||'없음'}\n\n핵심 니즈: ${need}\n기회 발견: ${opportunity}\n아이디어:\n${ideas.map(x=>'- '+x.n+': '+x.d).join('\n')}\n\n한 줄 인사이트: ${$('#summary').textContent}\n※ 입력 응답 기반 아이디어이며 실제 시장 검증이 필요합니다.`;
+ $('#empty').hidden=true;$('#resultContent').hidden=false;
+});
+$('#form').addEventListener('reset',()=>{setTimeout(()=>{$('#empty').hidden=false;$('#resultContent').hidden=true;report='';},0)});
+$('#copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(report);$('#copy').textContent='복사 완료!';setTimeout(()=>$('#copy').textContent='결과 복사',1400)}catch(e){alert('복사가 지원되지 않아요. 결과 저장 버튼을 이용해 주세요.')}});
+$('#download').addEventListener('click',()=>{const blob=new Blob([report],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='소비자_니즈_분석결과.txt';a.click();URL.revokeObjectURL(a.href)});
+</script>
+</body></html>
